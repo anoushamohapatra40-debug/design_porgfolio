@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anousha Mohapatra — Multidisciplinary Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<style>
+
+/* Animation for hero bg */
+@keyframes float {
+  0%, 100% {
+    transform: translateX(40px) translateY(0px);
+  }
+  50% {
+    transform: translateX(40px) translateY(-12px);
+  }
+}
+
+@keyframes steam1 {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-25px);
+    opacity: 0;
+  }
+}
+
+@keyframes steam2 {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes steam3 {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-22px);
+    opacity: 0;
+  }
+}
+
+/* laptop / SVG drawing animation */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* twinkling stars inside porthole */
+@keyframes twinkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+/* blinking pencil cursor */
+@keyframes cursor-blink {
+  50% { opacity: 1; }
+  0%, 100% { opacity: 0; }
+}
+
+/* orbit animations (RIGHT hero visual) */
+@keyframes orbit1 {
+  0%   { transform: rotate(0deg) translateX(70px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(70px) rotate(-360deg); }
+}
+
+@keyframes orbit2 {
+  0%   { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+  100% { transform: rotate(-360deg) translateX(100px) rotate(360deg); }
+}
+
+/* sparkle animations */
+@keyframes sparkle {
+  0%, 100% { transform: scale(0.6); opacity: 0.2; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+/* floating sticky notes */
+@keyframes floatN1 {
+  0%,100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-10px) rotate(-2deg); }
+}
+
+@keyframes floatN2 {
+  0%,100% { transform: translateY(0) rotate(2deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+@keyframes floatN3 {
+  0%,100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(-8px) rotate(-2.5deg); }
+}
+
+@keyframes floatN4 {
+  0%,100% { transform: translateY(0) rotate(3.5deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+
+/* coffee steam */
+@keyframes steam1 {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { transform: translateY(-25px); opacity: 0; }
+}
+
+@keyframes steam2 {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateY(-30px); opacity: 0; }
+}
+
+@keyframes steam3 {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 0.4; }
+  100% { transform: translateY(-22px); opacity: 0; }
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:#06060e;
+  color:#f0f0f0;
+  overflow-x:hidden;
+  cursor:none;
+}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:#06060e}
+::-webkit-scrollbar-thumb{background:rgba(127,119,221,0.4);border-radius:2px}
+
+/* ── CUSTOM CURSOR ── */
+#cursor{
+  position:fixed;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:#7F77DD;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.1s ease,width 0.25s ease,height 0.25s ease,background 0.25s ease,opacity 0.25s ease;
+  mix-blend-mode:screen;
+}
+#cursor-ring{
+  position:fixed;
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1px solid rgba(127,119,221,0.5);
+  pointer-events:none;
+  z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform 0.08s linear,width 0.3s ease,height 0.3s ease,border-color 0.3s ease,opacity 0.3s ease;
+}
+body:has(a:hover) #cursor,
+body:has(button:hover) #cursor,
+body:has(.card:hover) #cursor{
+  width:60px;height:60px;
+  background:rgba(127,119,221,0.15);
+}
+body:has(a:hover) #cursor-ring,
+body:has(button:hover) #cursor-ring,
+body:has(.card:hover) #cursor-ring{
+  border-color:rgba(127,119,221,0.8);
+  width:60px;height:60px;
+}
+@media(max-width:768px){#cursor,#cursor-ring{display:none}body{cursor:auto}}
+
+/* ── NOISE TEXTURE ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1000;opacity:0.5;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:28px 48px;
+  transition:all 0.5s cubic-bezier(0.16,1,0.3,1);
+  opacity:0;transform:translateY(-16px);
+}
+nav.visible{opacity:1;transform:translateY(0)}
+nav.scrolled{
+  background:rgba(6,6,14,0.75);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:0.5px solid rgba(255,255,255,0.06);
+  padding:16px 48px;
+}
+.nav-logo{
+  font-family:'DM Serif Display',serif;
+  font-size:18px;
+  color:#fff;
+  letter-spacing:0.02em;
+}
+.nav-links{display:flex;gap:32px}
+.nav-links a{
+  font-size:12px;
+  color:rgba(255,255,255,0.45);
+  text-decoration:none;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  transition:color 0.3s ease;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute;bottom:-2px;left:0;right:0;
+  height:0.5px;background:#7F77DD;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.nav-links a:hover{color:rgba(255,255,255,0.9)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{
+  font-size:11px;
+  padding:8px 20px;
+  border:0.5px solid rgba(255,255,255,0.2);
+  border-radius:20px;
+  color:rgba(255,255,255,0.55);
+  background:none;
+  text-decoration:none;
+  display:inline-block;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  transition:all 0.3s ease;
+}
+.nav-cta:hover{
+  background:rgba(127,119,221,0.12);
+  border-color:rgba(127,119,221,0.5);
+  color:#fff;
+  letter-spacing:0.1em;
+}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  position:relative;
+  overflow:hidden;
+  padding:120px 48px 80px;
+}
+
+/* RIGHT SIDE BACKGROUND VISUAL */
+.hero-visual-bg{
+  position:absolute;
+  right:-40px;
+  top:50%;
+  transform:translateY(-50%);
+  width:600px;
+  height:auto;
+  opacity:0.9;
+  z-index:0;
+  pointer-events:none;
+  filter:blur(0px);
+}
+
+/* keep hero text above everything */
+.hero-content,
+.scroll-indicator,
+.orb,
+.hero-grid{
+  position:relative;
+  z-index:2;
+}
+
+/* GRADIENT ORBS */
+.orb{
+  position:absolute;border-radius:50%;
+  filter:blur(100px);
+  pointer-events:none;
+  opacity:0;
+}
+.orb1{
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(127,119,221,0.2) 0%,transparent 70%);
+  top:-100px;right:-100px;
+}
+.orb2{
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(29,158,117,0.12) 0%,transparent 70%);
+  bottom:0;left:-100px;
+}
+.orb3{
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(212,83,126,0.1) 0%,transparent 70%);
+  top:40%;right:20%;
+}
+
+/* HERO GRID OVERLAY */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+  background-size:80px 80px;
+  pointer-events:none;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 40%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 40%,transparent 100%);
+}
+
+.hero-content{
+  position:relative;z-index:2;
+  max-width:1000px;
+}
+
+.dot-live{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:#5DCAA5;
+  position:relative;
+  flex-shrink:0;
+}
+.dot-live::after{
+  content:'';
+  position:absolute;inset:-5px;
+  border-radius:50%;
+  border:1px solid rgba(93,202,165,0.35);
+  animation:pulse-ring 2.5s ease-out infinite;
+}
+@keyframes pulse-ring{
+  0%{transform:scale(1);opacity:1}
+  100%{transform:scale(2.8);opacity:0}
+}
+
+.hero-title{overflow:hidden;margin-bottom:4px}
+.hero-title span{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(52px,8vw,96px);
+  font-weight:400;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+  display:block;
+  transform:translateY(110%);
+  color:#f5f3ff;
+}
+.hero-title .accent{
+  color:transparent;
+  -webkit-text-stroke:1px rgba(127,119,221,0.7);
+  font-style:italic;
+}
+.hero-role-wrap{overflow:hidden;margin-top:15px;margin-bottom:28px}
+.hero-role{
+  font-size:clamp(14px,2vw,18px);
+  color:rgba(255,255,255,0.3);
+  font-weight:300;
+  letter-spacing:0.04em;
+  display:block;
+  transform:translateY(110%);
+}
+
+.hero-desc{
+  font-size:15px;
+  color:rgba(255,255,255,0.45);
+  line-height:1.8;
+  max-width:440px;
+  opacity:0;transform:translateY(16px);
+  font-weight:300;
+}
+
+.hero-actions{
+  display:flex;gap:12px;
+  margin-top:36px;
+  opacity:0;transform:translateY(16px);
+}
+.btn-primary{
+  font-size:12px;
+  padding:12px 28px;
+  background:#7F77DD;
+  border-radius:2px;
+  color:#fff;
+  cursor:none;
+  border:none;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  text-decoration:none;
+  display:inline-block;
+  transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+  position:relative;
+  overflow:hidden;
+}
+.btn-primary::before{
+  content:'';
+  position:absolute;inset:0;
+  background:rgba(255,255,255,0.1);
+  transform:translateX(-100%);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-primary:hover::before{transform:translateX(0)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(127,119,221,0.3)}
+
+.btn-ghost{
+  font-size:12px;
+  padding:12px 28px;
+  border:0.5px solid rgba(255,255,255,0.15);
+  border-radius:2px;
+  color:rgba(255,255,255,0.4);
+  cursor:none;
+  background:none;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  text-decoration:none;
+  display:inline-block;
+  transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-ghost:hover{
+  border-color:rgba(255,255,255,0.35);
+  color:#fff;
+  transform:translateY(-2px);
+}
+
+.scroll-indicator{
+  position:absolute;
+  bottom:40px;left:48px;
+  display:flex;align-items:center;gap:12px;
+  font-size:10px;
+  color:rgba(255,255,255,0.18);
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  opacity:0;
+}
+.scroll-line{
+  width:40px;height:0.5px;
+  background:rgba(255,255,255,0.08);
+  overflow:hidden;position:relative;
+}
+.scroll-line::after{
+  content:'';
+  position:absolute;top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,#7F77DD,transparent);
+  animation:scan-line 2.5s ease-in-out 2s infinite;
+}
+@keyframes scan-line{0%{left:-100%}100%{left:100%}}
+
+/* ── SECTION COMMON ── */
+.section{padding:100px 48px 60px}
+.section-header{
+  display:flex;flex-direction:column;
+  align-items:center;
+  margin-bottom:64px;
+}
+.section-number{
+  font-size:10px;
+  color:rgba(255,255,255,0.15);
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.section-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(28px,5vw,48px);
+  font-weight:400;
+  color:#fff;
+  letter-spacing:-0.02em;
+  position:relative;
+}
+.section-title::after{
+  content:'';
+  display:block;
+  width:32px;height:1px;
+  background:#7F77DD;
+  margin:16px auto 0;
+}
+
+/* ── BENTO GRID ── */
+.bento{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:12px;
+}
+
+.card{
+  border-radius:4px;
+  overflow:hidden;
+  position:relative;
+  cursor:none;
+  background:#0e0e1c;
+  border:0.5px solid rgba(255,255,255,0.05);
+  opacity:0;
+  transform:translateY(32px) scale(0.98);
+  transition:border-color 0.4s ease;
+  will-change:transform;
+}
+.card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(127,119,221,0.04) 0%,transparent 60%);
+  opacity:0;
+  transition:opacity 0.4s ease;
+  z-index:1;pointer-events:none;
+}
+.card:hover{border-color:rgba(127,119,221,0.2)}
+.card:hover::before{opacity:1}
+.card:hover .card-arrow{opacity:1;transform:translate(0,0)}
+.card:hover .card-img-wrap img{transform:scale(1.04)}
+
+.card-img-wrap{
+  width:100%;height:100%;
+  overflow:hidden;
+}
+.card-img-wrap img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+
+.card-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px;
+  background:linear-gradient(to top,rgba(6,6,14,0.95) 0%,rgba(6,6,14,0.5) 60%,transparent 100%);
+  z-index:2;
+}
+.card-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px;letter-spacing:0.01em}
+.card-desc{font-size:11px;color:rgba(255,255,255,0.35);line-height:1.5;margin-bottom:10px}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{
+  font-size:10px;
+  padding:3px 9px;
+  border-radius:1px;
+  letter-spacing:0.04em;
+}
+.tp{background:rgba(127,119,221,0.12);color:rgba(175,169,236,0.9);border:0.5px solid rgba(127,119,221,0.2)}
+.tt{background:rgba(29,158,117,0.12);color:rgba(93,202,165,0.9);border:0.5px solid rgba(29,158,117,0.2)}
+.tc{background:rgba(216,90,48,0.12);color:rgba(240,153,117,0.9);border:0.5px solid rgba(216,90,48,0.2)}
+.tg{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.35);border:0.5px solid rgba(255,255,255,0.08)}
+
+.card-arrow{
+  position:absolute;top:14px;right:14px;
+  width:28px;height:28px;
+  border-radius:2px;
+  background:rgba(127,119,221,0.15);
+  border:0.5px solid rgba(127,119,221,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#AFA9EC;
+  opacity:0;transform:translate(6px,-6px);
+  transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+  z-index:3;
+}
+.behance-pill{
+  position:absolute;top:14px;left:14px;
+  font-size:9px;padding:3px 9px;
+  border-radius:1px;
+  background:rgba(6,6,14,0.8);
+  border:0.5px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.35);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  z-index:3;
+}
+
+.c1{grid-column:span 7;height:320px}
+.c2{grid-column:span 5;height:320px}
+.c3{grid-column:span 5;height:320px}
+.c4{grid-column:span 7;height:320px}
+
+/* ── ABOUT ── */
+.about-section{
+  padding:80px 48px;
+}
+.about-inner{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:80px;
+  align-items:start;
+  max-width:1200px;
+  margin:0 auto;
+}
+.about-left{display:flex;flex-direction:column;gap:40px}
+.about-text{
+  font-size:16px;
+  color:rgba(255,255,255,0.5);
+  line-height:1.9;
+  font-weight:300;
+  opacity:0;transform:translateY(24px);
+}
+.about-text em{
+  font-style:italic;
+  color:rgba(255,255,255,0.75);
+  font-family:'DM Serif Display',serif;
+}
+.about-meta{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:32px;
+}
+.about-block{opacity:0;transform:translateY(20px)}
+.about-block h3{
+  font-size:10px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.2);
+  margin-bottom:16px;
+}
+.about-block p{
+  font-size:13px;
+  color:rgba(255,255,255,0.5);
+  line-height:1.7;
+  font-weight:300;
+}
+.about-block b{
+  display:block;
+  font-weight:500;
+  color:rgba(255,255,255,0.8);
+  margin-top:10px;
+  font-size:13px;
+}
+.about-block .skill-item{
+  font-size:12px;
+  color:rgba(255,255,255,0.4);
+  padding:6px 0;
+  border-bottom:0.5px solid rgba(255,255,255,0.05);
+  display:flex;align-items:center;gap:8px;
+}
+.about-block .skill-item::before{
+  content:'';width:3px;height:3px;
+  border-radius:50%;background:#7F77DD;
+  flex-shrink:0;
+}
+
+.about-img-wrap{
+  position:relative;
+  opacity:0;transform:translateY(24px) scale(0.98);
+}
+.about-img-wrap::before{
+  content:'';
+  position:absolute;
+  inset:-1px;
+  border-radius:4px;
+  background:linear-gradient(135deg,rgba(127,119,221,0.3),transparent 60%,rgba(29,158,117,0.2));
+  z-index:-1;
+}
+.about-img-wrap img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border-radius:3px;
+  display:block;
+  filter:saturate(0.9) contrast(1.05);
+  transition:filter 0.5s ease;
+}
+.about-img-wrap:hover img{filter:saturate(1.1) contrast(1)}
+
+/* ── CONNECT ── */
+.connect-section{padding:60px 48px 100px}
+.connect-inner{max-width:1100px;margin:0 auto}
+.connect-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:100px;
+  align-items:center;
+  margin-top:20px;
+}
+.connect-h{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(32px,4.5vw,52px);
+  font-weight:400;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:16px;
+  opacity:0;transform:translateY(20px);
+}
+.connect-h em{color:#7F77DD;font-style:italic}
+.connect-sub{
+  font-size:13px;
+  color:rgba(255,255,255,0.25);
+  line-height:1.8;
+  font-weight:300;
+  opacity:0;transform:translateY(16px);
+}
+.connect-right{
+  display:flex;flex-direction:column;gap:8px;
+  opacity:0;transform:translateX(20px);
+}
+.social-btn{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;
+  border:0.5px solid rgba(255,255,255,0.07);
+  border-radius:2px;
+  color:rgba(255,255,255,0.4);
+  font-size:12px;
+  cursor:none;
+  transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+  background:rgba(255,255,255,0.01);
+  text-decoration:none;
+  letter-spacing:0.04em;
+  position:relative;
+  overflow:hidden;
+}
+.social-btn::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;
+  width:2px;
+  background:#7F77DD;
+  transform:scaleY(0);
+  transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.social-btn:hover{
+  border-color:rgba(127,119,221,0.25);
+  background:rgba(127,119,221,0.04);
+  color:rgba(255,255,255,0.85);
+  transform:translateX(4px);
+}
+.social-btn:hover::before{transform:scaleY(1)}
+.social-arrow{color:rgba(255,255,255,0.2);font-size:11px}
+
+/* ── FOOTER ── */
+footer{
+  text-align:center;
+  padding:28px;
+  font-size:10px;
+  color:rgba(255,255,255,0.1);
+  border-top:0.5px solid rgba(255,255,255,0.04);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+
+/* ── MOBILE ── */
+@media(max-width:1024px){
+  .bento{grid-template-columns:repeat(6,1fr)}
+  .c1,.c2,.c3,.c4{grid-column:span 6;height:260px}
+  .about-inner{grid-template-columns:1fr;gap:40px}
+  .about-img-wrap{max-width:320px}
+  .connect-grid{grid-template-columns:1fr;gap:48px}
+}
+@media(max-width:640px){
+  nav{padding:16px 20px}
+  nav.scrolled{padding:12px 20px}
+  .hero{padding:100px 20px 60px}
+  .hero-visual-bg{
+    right:-120px;
+    transform:translateY(-50%) scale(0.75);
+    opacity:0.7;
+  }
+  .section,.about-section,.connect-section{padding:60px 20px}
+  .bento{grid-template-columns:1fr;gap:10px}
+  .card{grid-column:span 1 !important;height:220px}
+  .about-meta{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .scroll-indicator{left:20px}
+}
+</style>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <span class="nav-logo">AM</span>
+  <div class="nav-links">
+    <a href="#work">Projects</a>
+    <a href="#about">About</a>
+    <a href="#connect">Contact</a>
+  </div>
+  <a class="nav-cta" href="https://drive.google.com/file/d/173I6ihcH1EkFhy4q8_uMnpkADehGFltq/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume ↗</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+  <div class="orb orb1" id="orb1"></div>
+  <div class="orb orb2" id="orb2"></div>
+  <div class="orb orb3" id="orb3"></div>
+  <div class="hero-grid"></div>
+
+  <!-- 🔥 NEW BACKGROUND LAYER -->
+  <div class="hero-visual-bg">
+        <div style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          gap:28px;
+          padding:2.5rem 1rem 2rem;
+          min-height:500px;
+          position:relative;
+          overflow:hidden;
+          flex-wrap:wrap;
+          max-width:1200px;
+          margin:auto;
+            ">
+
+      <!-- Ambient glow -->
+      <div style="position:absolute;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(146,150,240,0.13) 0%,transparent 70%);animation:glow-pulse 3.5s ease-in-out infinite;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+
+      <!-- Orbiting dots -->
+      <div style="position:absolute;top:50%;left:50%;width:0;height:0;animation:orbit1 12s linear infinite;">
+        <div style="width:6px;height:6px;border-radius:50%;background:#9296F0;opacity:0.7;transform:translateY(-3px);"></div>
+      </div>
+      <div style="position:absolute;top:50%;left:50%;width:0;height:0;animation:orbit2 12s linear infinite;">
+        <div style="width:5px;height:5px;border-radius:50%;background:#FFD93D;opacity:0.65;transform:translateY(-2.5px);"></div>
+      </div>
+
+      <!-- Sparkles -->
+      <div style="position:absolute;top:16%;left:10%;animation:sparkle 2.8s ease-in-out infinite 0.3s;">
+        <svg width="12" height="12" viewBox="0 0 16 16"><path d="M8 0L9 7L16 8L9 9L8 16L7 9L0 8L7 7Z" fill="#9296F0" opacity="0.55"/></svg>
+      </div>
+      <div style="position:absolute;top:70%;left:8%;animation:sparkle 2.2s ease-in-out infinite 1.1s;">
+        <svg width="9" height="9" viewBox="0 0 16 16"><path d="M8 0L9 7L16 8L9 9L8 16L7 9L0 8L7 7Z" fill="#FFD93D" opacity="0.5"/></svg>
+      </div>
+      <div style="position:absolute;top:28%;left:6%;animation:sparkle 3.2s ease-in-out infinite 2s;">
+        <svg width="7" height="7" viewBox="0 0 16 16"><path d="M8 0L9 7L16 8L9 9L8 16L7 9L0 8L7 7Z" fill="#9296F0" opacity="0.4"/></svg>
+      </div>
+
+      <!-- ======================== -->
+      <!--   LEFT: LAPTOP + COFFEE  -->
+      <!-- ======================== -->
+      <div style="
+            justify-self:center;
+            transform:translateX(40px);
+            position:relative;
+            animation:float 4.2s ease-in-out infinite;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+          ">
+
+        <!-- LAPTOP -->
+        <svg width="310" height="198" viewBox="0 0 310 198" style="display:block;">
+          <rect x="16" y="173" width="278" height="14" rx="6" fill="#12102a"/>
+          <rect x="22" y="173" width="266" height="7" rx="3" fill="#2a2660"/>
+          <rect x="20" y="12" width="270" height="164" rx="11" fill="#12102a"/>
+          <rect x="20" y="12" width="270" height="164" rx="11" fill="none" stroke="#9296F0" stroke-width="1.8"/>
+          <rect x="30" y="22" width="250" height="148" rx="8" fill="#09081e"/>
+          <!-- Screen glow -->
+          <ellipse cx="155" cy="96" rx="100" ry="65" fill="#9296F0" opacity="0.04"/>
+
+          <!-- ====== SPACE INTERIOR SKETCH ====== -->
+          <g stroke="#9296F0" stroke-linecap="round" stroke-linejoin="round" fill="none">
+
+            <!-- FLOOR (perspective lines) -->
+            <line x1="50" y1="155" x2="260" y2="155" stroke-width="1.8"
+              stroke-dasharray="220" stroke-dashoffset="220"
+              style="animation:draw 0.8s ease forwards 0.2s"/>
+            <!-- left wall -->
+            <line x1="50" y1="40" x2="50" y2="155" stroke-width="1.8"
+              stroke-dasharray="120" stroke-dashoffset="120"
+              style="animation:draw 0.6s ease forwards 1s"/>
+            <!-- ceiling -->
+            <line x1="50" y1="40" x2="260" y2="40" stroke-width="1.8"
+              stroke-dasharray="220" stroke-dashoffset="220"
+              style="animation:draw 0.8s ease forwards 1.6s"/>
+            <!-- right wall -->
+            <line x1="260" y1="40" x2="260" y2="155" stroke-width="1.8"
+              stroke-dasharray="120" stroke-dashoffset="120"
+              style="animation:draw 0.5s ease forwards 2.4s"/>
+
+            <!-- PERSPECTIVE FLOOR LINES to vanishing pt -->
+            <line x1="50" y1="155" x2="155" y2="96" stroke-width="0.8" opacity="0.35"
+              stroke-dasharray="120" stroke-dashoffset="120"
+              style="animation:draw 0.7s ease forwards 2.9s"/>
+            <line x1="260" y1="155" x2="155" y2="96" stroke-width="0.8" opacity="0.35"
+              stroke-dasharray="120" stroke-dashoffset="120"
+              style="animation:draw 0.7s ease forwards 3.1s"/>
+
+            <!-- LARGE CIRCULAR PORTHOLE WINDOW (center-right of wall) -->
+            <circle cx="195" cy="90" r="38" stroke-width="2"
+              stroke-dasharray="240" stroke-dashoffset="240"
+              style="animation:draw 1.2s ease forwards 3.4s"/>
+            <!-- porthole ring detail -->
+            <circle cx="195" cy="90" r="33" stroke-width="0.8" opacity="0.5"
+              stroke-dasharray="210" stroke-dashoffset="210"
+              style="animation:draw 1s ease forwards 4.6s"/>
+            <!-- porthole bolts -->
+            <circle cx="195" cy="52" r="2.5" stroke-width="1.5"
+              stroke-dasharray="16" stroke-dashoffset="16"
+              style="animation:draw 0.3s ease forwards 5.6s"/>
+            <circle cx="233" cy="90" r="2.5" stroke-width="1.5"
+              stroke-dasharray="16" stroke-dashoffset="16"
+              style="animation:draw 0.3s ease forwards 5.9s"/>
+            <circle cx="195" cy="128" r="2.5" stroke-width="1.5"
+              stroke-dasharray="16" stroke-dashoffset="16"
+              style="animation:draw 0.3s ease forwards 6.1s"/>
+            <circle cx="157" cy="90" r="2.5" stroke-width="1.5"
+              stroke-dasharray="16" stroke-dashoffset="16"
+              style="animation:draw 0.3s ease forwards 6.3s"/>
+
+            <!-- PLANET visible through porthole -->
+            <circle cx="185" cy="95" r="20" stroke-width="1.8"
+              stroke-dasharray="130" stroke-dashoffset="130"
+              style="animation:draw 0.9s ease forwards 6.5s"/>
+            <!-- planet rings -->
+            <ellipse cx="185" cy="95" rx="30" ry="7" stroke-width="1.2" opacity="0.7"
+              stroke-dasharray="120" stroke-dashoffset="120"
+              style="animation:draw 0.8s ease forwards 7.4s"/>
+            <!-- planet surface lines -->
+            <path d="M168 86 Q185 82 202 86" stroke-width="0.8" opacity="0.55"
+              stroke-dasharray="40" stroke-dashoffset="40"
+              style="animation:draw 0.4s ease forwards 8.2s"/>
+            <path d="M166 92 Q185 88 204 92" stroke-width="0.8" opacity="0.55"
+              stroke-dasharray="42" stroke-dashoffset="42"
+              style="animation:draw 0.4s ease forwards 8.6s"/>
+
+            <!-- STARS through porthole -->
+            <circle cx="220" cy="60" r="1" stroke-width="1.5"
+              stroke-dasharray="7" stroke-dashoffset="7"
+              style="animation:draw 0.2s ease forwards 9s"/>
+            <circle cx="168" cy="65" r="1" stroke-width="1.5"
+              stroke-dasharray="7" stroke-dashoffset="7"
+              style="animation:draw 0.2s ease forwards 9.2s"/>
+            <circle cx="212" cy="120" r="1" stroke-width="1.5"
+              stroke-dasharray="7" stroke-dashoffset="7"
+              style="animation:draw 0.2s ease forwards 9.3s"/>
+            <circle cx="173" cy="118" r="1" stroke-width="1.5"
+              stroke-dasharray="7" stroke-dashoffset="7"
+              style="animation:draw 0.2s ease forwards 9.4s"/>
+
+            <!-- FLOATING CHAIR (left side of room — perspective) -->
+            <!-- seat -->
+            <path d="M65 120 L105 120 L100 140 L70 140 Z" stroke-width="1.6"
+              stroke-dasharray="120" stroke-dashoffset="120"
+              style="animation:draw 0.8s ease forwards 9.6s"/>
+            <!-- chair leg left -->
+            <line x1="72" y1="140" x2="68" y2="155" stroke-width="1.5"
+              stroke-dasharray="20" stroke-dashoffset="20"
+              style="animation:draw 0.3s ease forwards 10.4s"/>
+            <!-- chair leg right -->
+            <line x1="98" y1="140" x2="102" y2="155" stroke-width="1.5"
+              stroke-dasharray="20" stroke-dashoffset="20"
+              style="animation:draw 0.3s ease forwards 10.7s"/>
+            <!-- chair back -->
+            <path d="M65 120 L62 95 L102 95 L105 120" stroke-width="1.5"
+              stroke-dasharray="120" stroke-dashoffset="120"
+              style="animation:draw 0.7s ease forwards 11s"/>
+            <!-- chair cushion lines -->
+            <line x1="66" y1="110" x2="104" y2="110" stroke-width="0.8" opacity="0.5"
+              stroke-dasharray="40" stroke-dashoffset="40"
+              style="animation:draw 0.3s ease forwards 11.7s"/>
+
+            <!-- DESK (right-bottom perspective) -->
+            <path d="M115 148 L155 135 L260 135 L260 148 Z" stroke-width="1.6"
+              stroke-dasharray="310" stroke-dashoffset="310"
+              style="animation:draw 1s ease forwards 12s"/>
+            <!-- desk leg -->
+            <line x1="254" y1="148" x2="254" y2="155" stroke-width="2"
+              stroke-dasharray="10" stroke-dashoffset="10"
+              style="animation:draw 0.2s ease forwards 13s"/>
+            <!-- small monitor on desk -->
+            <rect x="118" y="120" width="26" height="17" rx="2" stroke-width="1.4"
+              stroke-dasharray="90" stroke-dashoffset="90"
+              style="animation:draw 0.6s ease forwards 13.2s"/>
+            <line x1="131" y1="137" x2="131" y2="142" stroke-width="1.4"
+              stroke-dasharray="8" stroke-dashoffset="8"
+              style="animation:draw 0.2s ease forwards 13.8s"/>
+            <line x1="126" y1="142" x2="136" y2="142" stroke-width="1.4"
+              stroke-dasharray="12" stroke-dashoffset="12"
+              style="animation:draw 0.2s ease forwards 14s"/>
+            <!-- small plant on desk -->
+            <line x1="148" y1="135" x2="148" y2="126" stroke-width="1.5"
+              stroke-dasharray="12" stroke-dashoffset="12"
+              style="animation:draw 0.2s ease forwards 14.2s"/>
+            <circle cx="148" cy="122" r="5" stroke-width="1.4"
+              stroke-dasharray="35" stroke-dashoffset="35"
+              style="animation:draw 0.4s ease forwards 14.4s"/>
+
+            <!-- ceiling light fixture (pendant) -->
+            <line x1="155" y1="40" x2="155" y2="55" stroke-width="1.5"
+              stroke-dasharray="16" stroke-dashoffset="16"
+              style="animation:draw 0.2s ease forwards 14.8s"/>
+            <ellipse cx="155" cy="60" rx="12" ry="6" stroke-width="1.5"
+              stroke-dasharray="60" stroke-dashoffset="60"
+              style="animation:draw 0.5s ease forwards 15s"/>
+          </g>
+
+          <!-- Twinkling stars through porthole (pure opacity) -->
+          <circle cx="220" cy="60" r="1.2" fill="#9296F0" opacity="0" style="animation:twinkle 2s ease-in-out infinite 15.2s;"/>
+          <circle cx="168" cy="65" r="1.2" fill="#9296F0" opacity="0" style="animation:twinkle 2.4s ease-in-out infinite 15.5s;"/>
+          <circle cx="212" cy="120" r="1.2" fill="#9296F0" opacity="0" style="animation:twinkle 1.8s ease-in-out infinite 15.8s;"/>
+          <circle cx="173" cy="118" r="1.2" fill="#9296F0" opacity="0" style="animation:twinkle 2.2s ease-in-out infinite 16.1s;"/>
+
+          <!-- Pencil cursor blink at end of sketch -->
+          <text x="245" y="148" font-size="12" fill="#9296F0" opacity="0" style="animation:cursor-blink 1.1s step-end infinite 15.5s;">✏</text>
+
+          <!-- Camera dot -->
+          <circle cx="155" cy="17" r="2.5" fill="#9296F0" opacity="0.45"/>
+        </svg>
+
+        <!-- COFFEE CUP -->
+        <div style="position:absolute;right:20px; bottom:18px;">
+          <div style="display:flex;gap:9px;height:46px;align-items:flex-end;">
+            <div style="width:3px;height:28px;background:linear-gradient(to top,rgba(146,150,240,0.6),transparent);border-radius:2px;animation:steam2 2.2s ease-out infinite 0.5s;"></div>
+            <div style="width:3px;height:36px;background:linear-gradient(to top,rgba(146,150,240,0.65),transparent);border-radius:2px;animation:steam1 2s ease-out infinite;"></div>
+            <div style="width:3px;height:26px;background:linear-gradient(to top,rgba(146,150,240,0.55),transparent);border-radius:2px;animation:steam3 2.4s ease-out infinite 1s;"></div>
+          </div>
+          <svg width="70" height="78" viewBox="0 0 70 78">
+            <ellipse cx="35" cy="73" rx="29" ry="4" fill="#12102a"/>
+            <ellipse cx="35" cy="71" rx="26" ry="3.5" fill="#2a2660"/>
+            <path d="M13 32 Q12 60 17 66 Q26 73 35 73 Q44 73 53 66 Q58 60 57 32 Z" fill="#2a2660"/>
+            <path d="M13 32 Q12 60 17 66 Q26 73 35 73 Q44 73 53 66 Q58 60 57 32 Z" fill="none" stroke="#9296F0" stroke-width="1.4"/>
+            <ellipse cx="35" cy="32" rx="22" ry="5.5" fill="#9296F0" opacity="0.75"/>
+            <ellipse cx="35" cy="30.5" rx="22" ry="5.5" fill="#2a2660" stroke="#9296F0" stroke-width="1.2"/>
+            <ellipse cx="35" cy="30.5" rx="17" ry="3.5" fill="#09081e"/>
+            <ellipse cx="35" cy="30" rx="11" ry="2" fill="#1e1200" opacity="0.8"/>
+            <path d="M56 42 Q69 42 69 52 Q69 62 56 62" fill="none" stroke="#9296F0" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M56 44 Q66 44 66 52 Q66 60 56 60" fill="none" stroke="#2a2660" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 38 Q17 58 20 65" stroke="#9296F0" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.2"/>
+          </svg>
+        </div>
+
+        <!-- Keyboard base -->
+        <div style="width:290px;height:9px;background:#12102a;border-radius:0 0 9px 9px;margin-top:-3px;box-shadow:0 5px 22px rgba(146,150,240,0.18);"></div>
+      </div>
+
+      <!-- ======================== -->
+      <!--  RIGHT: STICKY NOTES     -->
+      <!-- ======================== -->
+      <div style="
+          justify-self:center;
+          transform:translateX(-40px);
+          display:flex;
+          flex-direction:column;
+          gap:14px;
+          align-items:flex-start;
+        ">
+
+        <!-- Yellow -->
+        <div style="animation:floatN1 4.4s ease-in-out infinite;">
+          <div style="background:#FFD93D;width:148px;min-height:82px;border-radius:3px;padding:10px 12px 10px;box-shadow:3px 4px 0 rgba(0,0,0,0.13);transform:rotate(-3deg);position:relative;">
+            <div style="position:absolute;top:0;left:0;right:0;height:8px;background:rgba(0,0,0,0.08);border-radius:3px 3px 0 0;"></div>
+            <p style="margin:8px 0 0;font-size:11px;font-weight:500;color:#412402;line-height:1.55;">✦ research deadline<br>by the weekend!</p>
+            <div style="margin-top:6px;height:1px;background:rgba(65,36,2,0.15);"></div>
+          </div>
+        </div>
+
+        <!-- Pink -->
+        <div style="animation:floatN2 3.9s ease-in-out infinite 0.6s;">
+          <div style="background:#FFB3C6;width:148px;min-height:82px;border-radius:3px;padding:10px 12px 10px;box-shadow:3px 4px 0 rgba(0,0,0,0.12);transform:rotate(2deg);position:relative;">
+            <div style="position:absolute;top:0;left:0;right:0;height:8px;background:rgba(0,0,0,0.07);border-radius:3px 3px 0 0;"></div>
+            <p style="margin:8px 0 0;font-size:11px;font-weight:500;color:#4B1528;line-height:1.55;">✧ browse through<br>colour palettes</p>
+            <div style="margin-top:6px;height:1px;background:rgba(75,21,40,0.15);"></div>
+          </div>
+        </div>
+
+        <!-- Mint -->
+        <div style="animation:floatN3 5.1s ease-in-out infinite 1.1s;">
+          <div style="background:#B5EAD7;width:148px;min-height:82px;border-radius:3px;padding:10px 12px 10px;box-shadow:3px 4px 0 rgba(0,0,0,0.11);transform:rotate(-1.5deg);position:relative;">
+            <div style="position:absolute;top:0;left:0;right:0;height:8px;background:rgba(0,0,0,0.06);border-radius:3px 3px 0 0;"></div>
+            <p style="margin:8px 0 0;font-size:11px;font-weight:500;color:#085041;line-height:1.55;">✦ coffee and<br>brand study ☕</p>
+            <div style="margin-top:6px;height:1px;background:rgba(8,80,65,0.15);"></div>
+          </div>
+        </div>
+
+        <!-- Lavender -->
+        <div style="animation:floatN4 4.7s ease-in-out infinite 1.6s;">
+          <div style="background:#C9C4F7;width:148px;min-height:96px;border-radius:3px;padding:10px 12px 10px;box-shadow:3px 4px 0 rgba(0,0,0,0.11);transform:rotate(3.5deg);position:relative;">
+            <div style="position:absolute;top:0;left:0;right:0;height:8px;background:rgba(0,0,0,0.06);border-radius:3px 3px 0 0;"></div>
+            <p style="margin:8px 0 0;font-size:11px;font-weight:500;color:#26215C;line-height:1.55;">✧ it's not supposed<br>to be perfect,<br>it is human.</p>
+            <div style="margin-top:6px;height:1px;background:rgba(38,33,92,0.15);"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-title">
+      <span id="hn1">Anousha</span>
+    </div>
+    <div class="hero-title">
+      <span id="hn2" class="accent">Mohapatra</span>
+    </div>
+    <div class="hero-role-wrap">
+      <span class="hero-role" id="hr">Multidisciplinary Designer</span>
+    </div>
+    <p class="hero-desc" id="hdesc">A designer crafting research-led visual narratives, strategic systems, and thoughtful experiences across disciplines — one pixel at a time.</p>
+    <div class="hero-actions" id="hact">
+      <a class="btn-primary" href="#work">View Work</a>
+      <a class="btn-ghost" href="#connect">Get in Touch</a>
+    </div>
+  </div>
+  <div class="scroll-indicator" id="scind">
+    <span class="scroll-line"></span>
+    Scroll
+  </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="section" id="work">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <h2 class="section-title">Projects</h2>
+  </div>
+  <div class="bento" id="bento">
+    <div class="card c1" data-i="0" onclick="window.open('https://www.behance.net/gallery/247598929/Branding-Egypt-A-Living-Civilisation','_blank')">
+      <div class="card-img-wrap"><img src="./assets/egypt.jpeg" alt="Branding Egypt" /></div>
+      <div class="behance-pill">Behance ↗</div>
+      <div class="card-arrow">↗</div>
+      <div class="card-overlay">
+        <div class="card-title">Branding Egypt</div>
+        <div class="card-desc">Destination Identity System</div>
+        <div class="tags"><span class="tag tp">Branding</span><span class="tag tg">Identity Design</span><span class="tag tg">Logo Design</span></div>
+      </div>
+    </div>
+    <div class="card c2" data-i="1" onclick="window.open('https://www.behance.net/gallery/247529831/Craft-Cluster-Research-Documentation-Banjara-kasuti','_blank')">
+      <div class="card-img-wrap"><img src="./assets/craft_cluster.jpeg" alt="Craft Research" /></div>
+      <div class="behance-pill">Behance ↗</div>
+      <div class="card-arrow">↗</div>
+      <div class="card-overlay">
+        <div class="card-title">Craft Research Documentation</div>
+        <div class="card-desc">Banjara Kasuti Craft Study</div>
+        <div class="tags"><span class="tag tt">Research</span><span class="tag tg">Craft</span><span class="tag tg">Illustration</span></div>
+      </div>
+    </div>
+    <div class="card c3" data-i="2" onclick="window.open('https://www.behance.net/gallery/247537731/Comparative-UXUI-Audit-Livspace-vs-Houzz','_blank')">
+      <div class="card-img-wrap"><img src="./assets/ui_audit.jpeg" alt="UI Audit" /></div>
+      <div class="behance-pill">Behance ↗</div>
+      <div class="card-arrow">↗</div>
+      <div class="card-overlay">
+        <div class="card-title">UX/UI Audit</div>
+        <div class="card-desc">Comparative Audit — Livspace vs Houzz</div>
+        <div class="tags"><span class="tag tp">UX/UI</span><span class="tag tg">Interaction Design</span><span class="tag tg">Research</span></div>
+      </div>
+    </div>
+    <div class="card c4" data-i="3" onclick="window.open('https://www.behance.net/gallery/247468117/IMAGINE-Coral-Reef-Regenerative-Design-Workshop','_blank')">
+      <div class="card-img-wrap"><img src="./assets/coral.jpeg" alt="Coral Reef" /></div>
+      <div class="behance-pill">Behance ↗</div>
+      <div class="card-arrow">↗</div>
+      <div class="card-overlay">
+        <div class="card-title">IMAGINE: Coral Reef</div>
+        <div class="card-desc">Regenerative Design Workshop</div>
+        <div class="tags"><span class="tag tc">Graphic Design</span><span class="tag tg">Product Design</span><span class="tag tg">Art Direction</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2 class="section-title">About</h2>
+  </div>
+  <div class="about-inner">
+    <div class="about-left">
+      <p class="about-text">
+        A <em>design researcher and visual communicator</em> with a background in English Literature and hands-on experience in graphic design. My practice is rooted in research-led visual storytelling, systems thinking, and concept-driven design — with a strong interest in translating complex ideas into compelling visual narratives.
+      </p>
+      <div class="about-meta">
+        <div class="about-block">
+          <h3>Education</h3>
+          <b>NIFT Bengaluru</b>
+          <p>Master of Design (M.Des)<br>2025–2027</p>
+          <b>KIIT Bhubaneswar</b>
+          <p>B.A. English Literature<br>2021–2024</p>
+        </div>
+        <div class="about-block">
+          <h3>Expertise</h3>
+          <div class="skill-item">Design Research</div>
+          <div class="skill-item">Visual Communication</div>
+          <div class="skill-item">Brand Identity Design</div>
+          <div class="skill-item">Trend Analysis & Forecasting</div>
+          <div class="skill-item">Systems Thinking</div>
+        </div>
+        <div class="about-block">
+        <h3>Tools</h3>
+        <p>
+          Proficient across design, research, and digital creation tools, I use platforms like Figma,
+          Framer, and Affinity Designer to build strategic visual systems and digital experiences;
+          Adobe Premiere Pro and Krita for motion and visual storytelling; and Canva for rapid communication design.
+          Complementing this, I leverage AI and research tools extensively for prompt engineering,
+          ideation, insight synthesis, and workflow optimisation across projects.
+        </p>
+      </div>
+      </div>
+    </div>
+    <div class="about-img-wrap">
+      <img src="./assets/PFP.jpeg" alt="Anousha Mohapatra" />
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section class="connect-section" id="connect">
+  <div class="connect-inner">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Contact</h2>
+    </div>
+    <div class="connect-grid">
+      <div>
+        <div class="connect-h" id="ch">Let's create something <em>remarkable.</em></div>
+        <p class="connect-sub" id="cs">Open to freelance, full-time, and collaborations.<br>Based in Bengaluru — working globally.</p>
+      </div>
+      <div class="connect-right" id="cr">
+        <a class="social-btn" href="https://www.linkedin.com/in/anousha-mohapatra" target="_blank">
+          <span>LinkedIn</span><span class="social-arrow">↗</span>
+        </a>
+        <a class="social-btn" href="https://www.behance.net/anoushamohapat1" target="_blank">
+          <span>Behance</span><span class="social-arrow">↗</span>
+        </a>
+        <a class="social-btn" href="mailto:anoushamohapatra40@gmail.com">
+          <span>Email</span><span class="social-arrow">✉</span>
+        </a>
+        <a class="social-btn" href="https://drive.google.com/file/d/173I6ihcH1EkFhy4q8_uMnpkADehGFltq/view" target="_blank">
+          <span>Resume</span><span class="social-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Anousha Mohapatra</footer>
+
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const isMobile = window.innerWidth < 768;
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ── CUSTOM CURSOR ── */
+if (!isMobile) {
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let rx = 0, ry = 0;
+  let cx = 0, cy = 0;
+
+  document.addEventListener('mousemove', e => {
+    cx = e.clientX; cy = e.clientY;
+    gsap.to(cursor, { x: cx, y: cy, duration: 0.1, ease: 'none' });
+  });
+
+  function animateRing() {
+    rx += (cx - rx) * 0.12;
+    ry += (cy - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+}
+
+/* ── LENIS SMOOTH SCROLL ── */
+let lenis = null;
+if (!isMobile && typeof Lenis !== 'undefined') {
+  lenis = new Lenis({ duration: 1.1, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+  lenis.on('scroll', ScrollTrigger.update);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+}
+
+/* ── NAV SCROLL STATE ── */
+function onScroll(y) {
+  document.getElementById('nav').classList.toggle('scrolled', y > 60);
+}
+if (lenis) { lenis.on('scroll', ({ scroll }) => onScroll(scroll)); }
+window.addEventListener('scroll', () => { if (!lenis) onScroll(window.scrollY); });
+
+/* ── ENTRANCE ANIMATIONS ── */
+if (!prefersReduced) {
+
+  /* ORBs */
+  gsap.to('#orb1', { opacity: 1, duration: 2.5, ease: 'power2.out', delay: 0.3 });
+  gsap.to('#orb2', { opacity: 1, duration: 2.5, ease: 'power2.out', delay: 0.6 });
+  gsap.to('#orb3', { opacity: 1, duration: 2.5, ease: 'power2.out', delay: 0.9 });
+
+  /* HERO SEQUENCE */
+  const tl = gsap.timeline({ delay: 0.4 });
+  tl.to('#nav', { opacity: 1, y: 0, duration: 0.9, ease: 'power4.out' })
+    .to('#htag', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+    .to('#hn1', { y: '0%', duration: 0.85, ease: 'power4.out' }, '-=0.3')
+    .to('#hn2', { y: '0%', duration: 0.85, ease: 'power4.out' }, '-=0.65')
+    .to('#hr',  { y: '0%', duration: 0.7, ease: 'power4.out' }, '-=0.5')
+    .to('#hdesc', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
+    .to('#hact', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
+    .to('#scind', { opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.2');
+
+  /* CARDS */
+  document.querySelectorAll('.card').forEach((card, i) => {
+    gsap.to(card, {
+      opacity: 1, y: 0, scale: 1, duration: 0.75,
+      ease: 'power3.out',
+      delay: (i % 2) * 0.12,
+      scrollTrigger: {
+        trigger: card, start: 'top 88%',
+        toggleActions: 'play none none reverse'
+      }
+    });
+  });
+
+  /* ABOUT */
+  gsap.to('.about-text', {
+    opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: '#about', start: 'top 75%' }
+  });
+  gsap.to('.about-block', {
+    opacity: 1, y: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '#about', start: 'top 70%' }
+  });
+  gsap.to('.about-img-wrap', {
+    opacity: 1, y: 0, scale: 1, duration: 1.1, ease: 'power3.out',
+    scrollTrigger: { trigger: '#about', start: 'top 72%' }
+  });
+
+  /* CONNECT */
+  gsap.to('#ch', {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+    scrollTrigger: { trigger: '#connect', start: 'top 80%' }
+  });
+  gsap.to('#cs', {
+    opacity: 1, y: 0, duration: 0.7, delay: 0.1, ease: 'power3.out',
+    scrollTrigger: { trigger: '#connect', start: 'top 80%' }
+  });
+  gsap.to('#cr', {
+    opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '#connect', start: 'top 80%' }
+  });
+
+  /* CARD HOVER LIFT */
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mouseenter', () => gsap.to(card, { y: -5, duration: 0.4, ease: 'power2.out' }));
+    card.addEventListener('mouseleave', () => gsap.to(card, { y: 0, duration: 0.4, ease: 'power2.out' }));
+  });
+
+  /* PARALLAX ORBS on mousemove */
+  if (!isMobile) {
+    document.addEventListener('mousemove', e => {
+      const px = (e.clientX / window.innerWidth - 0.5) * 30;
+      const py = (e.clientY / window.innerHeight - 0.5) * 20;
+      gsap.to('#orb1', { x: -px * 0.6, y: -py * 0.4, duration: 1.5, ease: 'power1.out' });
+      gsap.to('#orb2', { x: px * 0.4, y: py * 0.3, duration: 1.5, ease: 'power1.out' });
+      gsap.to('#orb3', { x: px * 0.8, y: py * 0.6, duration: 1.5, ease: 'power1.out' });
+    });
+  }
+
+} else {
+  /* REDUCED MOTION FALLBACK */
+  document.querySelectorAll('#nav,#htag,#hdesc,#hact,#scind,#ch,#cs,#cr,.about-text,.about-block,.about-img-wrap')
+    .forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  document.querySelectorAll('.card').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  document.querySelectorAll('#hn1,#hn2,#hr').forEach(el => { el.style.transform = 'translateY(0)'; });
+  document.querySelectorAll('.orb').forEach(el => { el.style.opacity = '1'; });
+}
+</script>
+</body>
+</html>
